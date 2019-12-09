@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysRoleMapper">
+  <resultMap id="roleMap" type="cn.hctech2006.hcnet.bean.SysRole">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysRole">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_role (id, role_name)
+    values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysRole">
+    update sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="roleMap">
+    select id, role_name
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="roleMap">
+    select id, role_name
+    from sys_role
+  </select>
+
+  <select id="selectRoleByUserId" resultMap="roleMap">
+  select
+  r.id,
+  r.role_name
+  from sys_role r
+         inner join sys_user_role ur on ur.role_id = r.id
+  where ur.user_id = #{userId}
+</select>
+  <select id="selectRoleByPrivilegeId" resultMap="roleMap">
+    select
+      r.id,
+      r.role_name
+    from sys_role r
+    inner join sys_role_privilege pr on pr.role_id = r.id
+    where pr.privilege_id = #{privilegeId}
+  </select>
+</mapper>

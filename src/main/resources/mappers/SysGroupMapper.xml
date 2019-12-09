@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysGroupMapper">
+  <resultMap id="groupMap" type="cn.hctech2006.hcnet.bean.SysGroup">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="group_intro" jdbcType="VARCHAR" property="groupIntro" />
+    <result column="group_head" jdbcType="VARCHAR" property="groupHead" />
+    <result column="group_isenabled" jdbcType="CHAR" property="groupIsenabled" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_group
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysGroup">
+
+    insert into sys_group (group_name, group_intro,
+      group_head, group_isenabled)
+    values (#{groupName,jdbcType=VARCHAR}, #{groupIntro,jdbcType=VARCHAR},
+      #{groupHead,jdbcType=VARCHAR}, #{groupIsenabled,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysGroup">
+    update sys_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      group_intro = #{groupIntro,jdbcType=VARCHAR},
+      group_head = #{groupHead,jdbcType=VARCHAR},
+      group_isenabled = #{groupIsenabled,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="groupMap">
+    select id, group_name, group_intro, group_head, group_isenabled
+    from sys_group
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="groupMap">
+    select id, group_name, group_intro, group_head, group_isenabled
+    from sys_group
+where group_isenabled = '1'
+  </select>
+
+  <update id="updateByIsEnabled" parameterType="cn.hctech2006.hcnet.bean.SysGroup">
+    update sys_group
+    set
+        group_isenabled = #{groupIsenabled,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAllunabled" resultMap="groupMap">
+    select id, group_name, group_intro, group_head, group_isenabled
+    from sys_group
+    where group_isenabled = '0'
+
+  </select>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysAwardMapper">
+
+  <resultMap id="awardMap" type="cn.hctech2006.hcnet.bean.SysAward">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="award_name" jdbcType="VARCHAR" property="awardName" />
+    <result column="award_detail" jdbcType="VARCHAR" property="awardDetail" />
+    <result column="award_date" jdbcType="DATE" property="awardDate" />
+    <result column="award_img" jdbcType="VARCHAR" property="awardImg" />
+    <result column="award_group" jdbcType="CHAR" property="awardGroup" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_award
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysAward">
+
+    insert into sys_award (award_name, award_detail,
+      award_date, award_img, award_group
+      )
+    values (#{awardName,jdbcType=VARCHAR}, #{awardDetail,jdbcType=VARCHAR},
+      #{awardDate,jdbcType=DATE}, #{awardImg,jdbcType=VARCHAR}, #{awardGroup,jdbcType=CHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysAward">
+    update sys_award
+    set award_name = #{awardName,jdbcType=VARCHAR},
+      award_detail = #{awardDetail,jdbcType=VARCHAR},
+      award_date = #{awardDate,jdbcType=DATE},
+      award_img = #{awardImg,jdbcType=VARCHAR},
+      award_group = #{awardGroup,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="awardMap">
+    select id, award_name, award_detail, award_date, award_img, award_group
+    from sys_award
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="awardMap">
+    select id, award_name, award_detail, award_date, award_img, award_group
+    from sys_award
+  </select>
+
+  <select id="findAwardByGroup" parameterType="String" resultMap="awardMap">
+    select
+    id, award_name, award_detail, award_date, award_img, award_group
+    from sys_award
+    where award_group = #{group}
+  </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysDutyMapper">
+  <resultMap id="dutyMap" type="cn.hctech2006.hcnet.bean.SysDuty">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="duty_name" jdbcType="VARCHAR" property="dutyName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_duty
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysDuty">
+
+    insert into sys_duty (duty_name)
+    values (#{dutyName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysDuty">
+    update sys_duty
+    set duty_name = #{dutyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="dutyMap">
+    select id, duty_name
+    from sys_duty
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="dutyMap">
+    select id, duty_name
+    from sys_duty
+  </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysAchieveMapper">
+  <resultMap id="achieveMap" type="cn.hctech2006.hcnet.bean.SysAchieve">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="achieve_name" jdbcType="VARCHAR" property="achieveName" />
+    <result column="achieve_detail" jdbcType="VARCHAR" property="achieveDetail" />
+    <result column="achieve_img" jdbcType="VARCHAR" property="achieveImg" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysAchieve">
+
+    insert into sys_achieve (achieve_name, achieve_detail,
+      achieve_img)
+    values (#{achieveName,jdbcType=VARCHAR}, #{achieveDetail,jdbcType=VARCHAR},
+      #{achieveImg,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysAchieve">
+    update sys_achieve
+    set achieve_name = #{achieveName,jdbcType=VARCHAR},
+      achieve_detail = #{achieveDetail,jdbcType=VARCHAR},
+      achieve_img = #{achieveImg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="achieveMap">
+    select id, achieve_name, achieve_detail, achieve_img
+    from sys_achieve
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="achieveMap">
+    select id, achieve_name, achieve_detail, achieve_img
+    from sys_achieve
+  </select>
+</mapper>

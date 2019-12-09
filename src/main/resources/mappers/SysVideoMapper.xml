@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysVideoMapper">
+  <resultMap id="videoMap" type="cn.hctech2006.hcnet.bean.SysVideo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="video_img_url" jdbcType="VARCHAR" property="videoImgUrl" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="video_detail" jdbcType="VARCHAR" property="videoDetail" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="DATE" property="updateTime" />
+    <result column="del_it" jdbcType="CHAR" property="delIt" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="video_group" jdbcType="VARCHAR" property="videoGroup"/>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_video
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysVideo">
+
+    insert into sys_video (video_img_url, video_name,
+      video_url, video_detail, create_by, 
+      create_time, update_by, update_time, 
+      del_it, year, video_group)
+    values (#{videoImgUrl,jdbcType=VARCHAR}, #{videoName,jdbcType=VARCHAR},
+      #{videoUrl,jdbcType=VARCHAR}, #{videoDetail,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, 
+      #{delIt,jdbcType=CHAR}, #{year,jdbcType=VARCHAR}, #{videoGroup,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysVideo">
+    update sys_video
+    set video_img_url = #{videoImgUrl,jdbcType=VARCHAR},
+      video_name = #{videoName,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      video_detail = #{videoDetail,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=DATE},
+      del_it = #{delIt,jdbcType=CHAR},
+      year = #{year,jdbcType=VARCHAR},
+      video_group = #{videoGroup,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="videoMap">
+    select id, video_img_url, video_name, video_url, video_detail, create_by, create_time, 
+    update_by, update_time, del_it, year,video_group
+    from sys_video
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="videoMap">
+    select id, video_img_url, video_name, video_url, video_detail, create_by, create_time, 
+    update_by, update_time, del_it, year,video_group
+    from sys_video
+  </select>
+
+  <insert id="saveVideo" parameterType="cn.hctech2006.hcnet.bean.SysVideo">
+    insert into sys_video (video_img_url, video_name,
+    video_url, video_detail, create_by,
+    create_time, update_by, update_time,
+    del_it, year,video_group)
+    values (#{videoImgUrl,jdbcType=VARCHAR}, #{videoName,jdbcType=VARCHAR},
+    #{videoUrl,jdbcType=VARCHAR}, #{videoDetail,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+    #{createTime,jdbcType=DATE}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE},
+    #{delIt,jdbcType=CHAR}, #{year,jdbcType=VARCHAR}, #{videoGroup,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectVideoByAge" parameterType="String" resultMap="videoMap">
+    select
+    id, video_img_url, video_name, video_url, video_detail, create_by, create_time, update_by, update_time, del_it, year,video_group
+    from sys_video
+    where year = #{year}
+  </select>
+  <select id="selectAllAges" resultType="String">
+    select
+    distinct
+    year
+    from sys_video
+    order by year desc
+  </select>
+
+  <select id="selectVideoByGroup" parameterType="String" resultMap="videoMap">
+    select
+    id, video_img_url, video_name, video_url, video_detail, create_by, create_time, update_by, update_time, del_it, year, video_group
+    from sys_video
+where video_group = #{group}
+  </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysProMapper">
+
+  <resultMap id="proMap" type="cn.hctech2006.hcnet.bean.SysPro">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="pro_img" jdbcType="VARCHAR" property="proImg" />
+    <result column="pro_date" jdbcType="DATE" property="proDate" />
+    <result column="pro_group" jdbcType="CHAR" property="proGroup" />
+    <result column="pro_detail" jdbcType="LONGVARCHAR" property="proDetail" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_pro
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysPro">
+
+    insert into sys_pro (pro_name, pro_img,
+      pro_date, pro_group, pro_detail
+      )
+    values ( #{proName,jdbcType=VARCHAR}, #{proImg,jdbcType=VARCHAR},
+      #{proDate,jdbcType=DATE}, #{proGroup,jdbcType=CHAR}, #{proDetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysPro">
+    update sys_pro
+    set pro_name = #{proName,jdbcType=VARCHAR},
+      pro_img = #{proImg,jdbcType=VARCHAR},
+      pro_date = #{proDate,jdbcType=DATE},
+      pro_group = #{proGroup,jdbcType=CHAR},
+      pro_detail = #{proDetail,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="proMap">
+    select id, pro_name, pro_img, pro_date, pro_group, pro_detail
+    from sys_pro
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="proMap">
+    select id, pro_name, pro_img, pro_date, pro_group, pro_detail
+    from sys_pro
+  </select>
+  <select id="findProByGroup" parameterType="String" resultMap="proMap">
+    select
+    id, pro_name, pro_detail, pro_img, pro_date, pro_group
+    from sys_pro
+    where pro_group = #{group}
+  </select>
+</mapper>

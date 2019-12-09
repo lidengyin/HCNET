@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysFileMapper">
+  <resultMap id="fileMap" type="cn.hctech2006.hcnet.bean.SysFile">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysFile">
+    insert into sys_file (file_name, file_url
+      )
+    values (#{fileName,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysFile">
+    update sys_file
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="fileMap">
+    select id, file_name, file_url
+    from sys_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="fileMap">
+    select id, file_name, file_url
+    from sys_file
+  </select>
+  <insert id="saveFile" parameterType="cn.hctech2006.hcnet.bean.SysFile">
+    insert into sys_file (file_name, file_url
+    )
+    values (#{fileName,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}
+           )
+  </insert>
+</mapper>

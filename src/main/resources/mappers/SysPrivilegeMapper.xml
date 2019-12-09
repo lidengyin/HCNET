@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysPrivilegeMapper">
+  <resultMap id="privilegeMap" type="cn.hctech2006.hcnet.bean.SysPrivilege">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="privilege_name" jdbcType="VARCHAR" property="privilegeName" />
+    <result column="privilege_url" jdbcType="VARCHAR" property="privilegeUrl" />
+    <result column="privilege_parentId" jdbcType="BIGINT" property="privilegeParentid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_privilege
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysPrivilege">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_privilege (id, privilege_name, privilege_url, 
+      privilege_parentId)
+    values (#{id,jdbcType=BIGINT}, #{privilegeName,jdbcType=VARCHAR}, #{privilegeUrl,jdbcType=VARCHAR}, 
+      #{privilegeParentid,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysPrivilege">
+    update sys_privilege
+    set privilege_name = #{privilegeName,jdbcType=VARCHAR},
+      privilege_url = #{privilegeUrl,jdbcType=VARCHAR},
+      privilege_parentId = #{privilegeParentid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="privilegeMap">
+    select id, privilege_name, privilege_url, privilege_parentId
+    from sys_privilege
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="privilegeMap">
+    select id, privilege_name, privilege_url, privilege_parentId
+    from sys_privilege
+  </select>
+
+  <resultMap id="privilegeRoleListMapSelect"
+             extends="privilegeMap"
+             type="cn.hctech2006.hcnet.bean.SysPrivilege">
+    <collection property="roleList"
+                fetchType="lazy"
+                column="{privilegeId=id}"
+                select="cn.hctech2006.hcnet.mapper.SysRoleMapper.selectRoleByPrivilegeId"/>
+  </resultMap>
+
+  <select id="selectPrivilegeRoleList" resultMap="privilegeRoleListMapSelect">
+    select
+    p.id,
+    p.privilege_name,
+    p.privilege_url,
+    p.privilege_parentId
+    from sys_privilege p
+  </select>
+
+  <resultMap id="privilegePrivilegeListMapSelect"
+             type="cn.hctech2006.hcnet.bean.SysPrivilege"
+             extends="privilegeMap">
+    <collection property="privilegeList"
+                fetchType="lazy"
+                column="{parentId = id}"
+                select="cn.hctech2006.hcnet.mapper.SysPrivilegeMapper.selectPrivilegeByParentId"/>
+  </resultMap>
+
+  <select id="privilegeTree" resultMap="privilegePrivilegeListMapSelect">
+    select
+    p1.id, p1.privilege_name, p1.privilege_url, p1.privilege_parentId
+    from sys_privilege p1, sys_privilege p2
+    where p1.id = p2.privilege_parentId
+  </select>
+
+  <select id="selectPrivilegeByParentId" resultMap="privilegeMap">
+    select
+    p.id, p.privilege_name, p.privilege_url, p.privilege_parentId
+    from sys_privilege p
+    where p.privilege_parentId = #{parentId}
+  </select>
+
+</mapper>

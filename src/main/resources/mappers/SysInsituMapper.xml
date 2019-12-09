@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysInsituMapper">
+  <resultMap id="insituMap" type="cn.hctech2006.hcnet.bean.SysInsitu">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="insitu_content" jdbcType="VARCHAR" property="insituContent" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_insitu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysInsitu">
+
+    insert into sys_insitu (insitu_content)
+    values (#{insituContent,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysInsitu">
+    update sys_insitu
+    set insitu_content = #{insituContent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="insituMap">
+    select id, insitu_content
+    from sys_insitu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="insituMap">
+    select id, insitu_content
+    from sys_insitu
+  </select>
+</mapper>

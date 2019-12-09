@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysDailyMapper">
+  <resultMap id="dailyMap" type="cn.hctech2006.hcnet.bean.SysDaily">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="daily_name" jdbcType="VARCHAR" property="dailyName" />
+    <result column="daily_image" jdbcType="VARCHAR" property="dailyImage" />
+    <result column="daily_readtime" jdbcType="BIGINT" property="dailyReadtime" />
+    <result column="daily_ct" jdbcType="DATE" property="dailyCt" />
+    <result column="daily_ut" jdbcType="DATE" property="dailyUt" />
+    <result column="daily_content" jdbcType="LONGVARCHAR" property="dailyContent" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_daily
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysDaily">
+
+    insert into sys_daily (daily_name, daily_image,
+      daily_readtime, daily_ct, daily_ut, 
+      daily_content)
+    values (#{dailyName,jdbcType=VARCHAR}, #{dailyImage,jdbcType=VARCHAR},
+      #{dailyReadtime,jdbcType=BIGINT}, #{dailyCt,jdbcType=DATE}, #{dailyUt,jdbcType=DATE}, 
+      #{dailyContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysDaily">
+    update sys_daily
+    set daily_name = #{dailyName,jdbcType=VARCHAR},
+      daily_image = #{dailyImage,jdbcType=VARCHAR},
+      daily_readtime = #{dailyReadtime,jdbcType=BIGINT},
+      daily_ct = #{dailyCt,jdbcType=DATE},
+      daily_ut = #{dailyUt,jdbcType=DATE},
+      daily_content = #{dailyContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="dailyMap">
+    select id, daily_name, daily_image, daily_readtime, daily_ct, daily_ut, daily_content
+    from sys_daily
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="dailyMap">
+    select id, daily_name, daily_image, daily_readtime, daily_ct, daily_ut, daily_content
+    from sys_daily
+  </select>
+</mapper>

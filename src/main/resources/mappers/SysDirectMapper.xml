@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysDirectMapper">
+
+  <resultMap id="directMap" type="cn.hctech2006.hcnet.bean.SysDirect">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="direct_name" jdbcType="VARCHAR" property="directName" />
+    <result column="direct_group" jdbcType="VARCHAR" property="directGroup" />
+    <result column="direct_enable" jdbcType="CHAR" property="directEnable" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_direct
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysDirect">
+
+    insert into sys_direct (direct_name, direct_group,
+      direct_enable)
+    values (#{directName,jdbcType=VARCHAR}, #{directGroup,jdbcType=VARCHAR},
+      #{directEnable,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysDirect">
+    update sys_direct
+    set direct_name = #{directName,jdbcType=VARCHAR},
+      direct_group = #{directGroup,jdbcType=VARCHAR},
+      direct_enable = #{directEnable,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="directMap">
+    select id, direct_name, direct_group, direct_enable
+    from sys_direct
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="directMap">
+    select id, direct_name, direct_group, direct_enable
+    from sys_direct
+    where direct_enable = '1'
+  </select>
+  <select id="selectAllByGroup" resultMap="directMap">
+    select id, direct_name, direct_group, direct_enable
+    from sys_direct
+    where direct_group = #{group} and direct_enable = 1
+  </select>
+  <update id="updateEnabled" parameterType="cn.hctech2006.hcnet.bean.SysDirect">
+    update sys_direct
+    set
+        direct_enable = #{directEnable,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateGroup" parameterType="cn.hctech2006.hcnet.bean.SysDirect">
+    update sys_direct
+    set
+        direct_group = #{directGroup,jdbcType=VARCHAR}
+
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

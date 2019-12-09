@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysMajorMapper">
+  <resultMap id="majorMap" type="cn.hctech2006.hcnet.bean.SysMajor">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_major
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysMajor">
+
+    insert into sys_major ( major)
+    values (#{major,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysMajor">
+    update sys_major
+    set major = #{major,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="majorMap">
+    select id, major
+    from sys_major
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="majorMap">
+    select id, major
+    from sys_major
+  </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysImgMapper">
+  <resultMap id="imgMap" type="cn.hctech2006.hcnet.bean.SysImg">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="img_name" jdbcType="VARCHAR" property="imgName" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="img_cb" jdbcType="VARCHAR" property="imgCb" />
+    <result column="img_ct" jdbcType="DATE" property="imgCt" />
+    <result column="img_ub" jdbcType="VARCHAR" property="imgUb" />
+    <result column="img_ut" jdbcType="DATE" property="imgUt" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_img
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysImg">
+
+    insert into sys_img (img_name, img_url,
+      img_cb, img_ct, img_ub, img_ut
+      )
+    values (#{imgName,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR},
+      #{imgCb,jdbcType=VARCHAR}, #{imgCt,jdbcType=DATE}, #{imgUb,jdbcType=VARCHAR}, #{imgUt,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysImg">
+    update sys_img
+    set img_name = #{imgName,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      img_cb = #{imgCb,jdbcType=VARCHAR},
+      img_ct = #{imgCt,jdbcType=DATE},
+      img_ub = #{imgUb,jdbcType=VARCHAR},
+      img_ut = #{imgUt,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="imgMap">
+    select id, img_name, img_url, img_cb, img_ct, img_ub, img_ut
+    from sys_img
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="imgMap">
+    select id, img_name, img_url, img_cb, img_ct, img_ub, img_ut
+    from sys_img
+  </select>
+  <insert id="saveImg" parameterType="cn.hctech2006.hcnet.bean.SysImg">
+    insert into sys_img (img_name, img_url,
+                         img_cb, img_ct, img_ub, img_ut
+    )
+    values (#{imgName,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR},
+            #{imgCb,jdbcType=VARCHAR}, #{imgCt,jdbcType=DATE}, #{imgUb,jdbcType=VARCHAR}, #{imgUt,jdbcType=DATE}
+           )
+  </insert>
+</mapper>

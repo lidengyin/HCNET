@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.hcnet.mapper.SysMemMapper">
+  <resultMap id="memMap" type="cn.hctech2006.hcnet.bean.SysMem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mem_name" jdbcType="VARCHAR" property="memName" />
+    <result column="mem_head" jdbcType="VARCHAR" property="memHead" />
+    <result column="mem_begin" jdbcType="DATE" property="memBegin" />
+    <result column="mem_end" jdbcType="DATE" property="memEnd" />
+    <result column="mem_detail" jdbcType="VARCHAR" property="memDetail" />
+    <result column="mem_isenable" jdbcType="CHAR" property="memIsenable" />
+    <result column="mem_group" jdbcType="CHAR" property="memGroup" />
+    <result column="mem_direct" jdbcType="CHAR" property="memDirect" />
+    <result column="mem_major" jdbcType="CHAR" property="memMajor" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_mem
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.hctech2006.hcnet.bean.SysMem">
+
+    insert into sys_mem (mem_name, mem_head,
+      mem_begin, mem_end, mem_detail, 
+      mem_isenable, mem_group, mem_direct, 
+      mem_major)
+    values (#{memName,jdbcType=VARCHAR}, #{memHead,jdbcType=VARCHAR},
+      #{memBegin,jdbcType=DATE}, #{memEnd,jdbcType=DATE}, #{memDetail,jdbcType=VARCHAR}, 
+      #{memIsenable,jdbcType=CHAR}, #{memGroup,jdbcType=CHAR}, #{memDirect,jdbcType=CHAR}, 
+      #{memMajor,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.hctech2006.hcnet.bean.SysMem">
+    update sys_mem
+    set mem_name = #{memName,jdbcType=VARCHAR},
+      mem_head = #{memHead,jdbcType=VARCHAR},
+      mem_begin = #{memBegin,jdbcType=DATE},
+      mem_end = #{memEnd,jdbcType=DATE},
+      mem_detail = #{memDetail,jdbcType=VARCHAR},
+      mem_isenable = #{memIsenable,jdbcType=CHAR},
+      mem_group = #{memGroup,jdbcType=CHAR},
+      mem_direct = #{memDirect,jdbcType=CHAR},
+      mem_major = #{memMajor,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group, 
+    mem_direct, mem_major
+    from sys_mem
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group, 
+    mem_direct, mem_major
+    from sys_mem
+    where mem_group is not '0' and mem_isenable = 1;
+  </select>
+
+  <select id="findMemByGroup" parameterType="String" resultMap="memMap">
+    select
+    id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group, mem_direct, mem_major
+    from sys_mem
+    where mem_group = #{group} and mem_isenable = '1'
+  </select>
+
+  <select id="selectAllUnknownGroupMem" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group,
+           mem_direct, mem_major
+    from sys_mem
+    where mem_group = '0' and mem_isenable = '1'
+  </select>
+
+  <update id="updateMemGroup" parameterType="cn.hctech2006.hcnet.bean.SysMem">
+    update sys_mem
+    set
+        mem_group = #{memGroup,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateMemIsEnabled" parameterType="cn.hctech2006.hcnet.bean.SysMem">
+    update sys_mem
+    set
+      mem_isenable = #{memIsenable,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateMemLeaveTime" parameterType="cn.hctech2006.hcnet.bean.SysMem">
+    update sys_mem
+    set
+      mem_end = #{memEnd,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAllLeaveMem" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group,
+           mem_direct, mem_major
+    from sys_mem
+    where mem_isenable = '0'
+    group by mem_group;
+  </select>
+  <select id="selectLeaveMemByGroup" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group,
+           mem_direct, mem_major
+    from sys_mem
+    where mem_group = #{group} and mem_isenable = '0'
+  </select>
+  <select id="findAllMemNoCondition" resultMap="memMap">
+    select id, mem_name, mem_head, mem_begin, mem_end, mem_detail, mem_isenable, mem_group,
+           mem_direct, mem_major
+    from sys_mem
+
+  </select>
+</mapper>
